@@ -11,14 +11,13 @@ class Apiservice {
 
   Future<List<MealMoudel>> featchData() async {
     final url = Uri.parse(
-      "http://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata",
+      "https://www.themealdb.com/api/json/v1/1/search.php?s=chicken",
     );
     try {
       final respons = await client.get(url);
       if (respons.statusCode == 200) {
-        final data = await json.decode(respons.body);
-        _logger.info("Data featched $data");
-        final meals = await data["meals"] as List;
+        final data =  json.decode(respons.body);
+        final meals =  data["meals"] as List;
         return meals.map((e) => MealMoudel.fromJson(e)).toList();
       } else {
         _logger.warning("failed to featch data : ${respons.statusCode}");
