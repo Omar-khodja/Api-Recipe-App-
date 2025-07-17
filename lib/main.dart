@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_app/screen/homePage.dart';
 
 final kcolorScheme = ColorScheme.fromSeed(
-  seedColor: Colors.orange,
+  seedColor: const Color.fromARGB(255, 110, 8, 8),
   brightness: Brightness.dark,
 );
 void main() {
