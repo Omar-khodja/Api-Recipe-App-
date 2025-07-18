@@ -12,7 +12,6 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
-  late final Future<void> provider;
   final TextEditingController _searchControler = TextEditingController();
 
   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
@@ -24,8 +23,9 @@ class _HomepageState extends ConsumerState<Homepage> {
   @override
   void initState() {
     super.initState();
-    provider = ref.read(mealApiProvider.notifier).featchdata();
+ ref.read(mealApiProvider.notifier).featchdata();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -34,47 +34,45 @@ class _HomepageState extends ConsumerState<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<MealMoudel> meals = ref.watch(mealApiProvider);
+    final AsyncValue<List<MealMoudel>> mealsAsync = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           controller: _searchControler,
           style: const TextStyle(color: Colors.white, fontSize: 18),
+           autofocus: false,
           decoration: InputDecoration(
             hintText: "Search...",
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             fillColor: Theme.of(context).colorScheme.primaryContainer,
             filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(13),
-              
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
           ),
-          onSubmitted: (value) => ref.read(mealApiProvider.notifier).searchByName(_searchControler.text),
+          onSubmitted: (value) => ref
+              .read(mealApiProvider.notifier)
+              .searchByName(_searchControler.text),
         ),
-      
       ),
-      body: FutureBuilder(
-        future: provider,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if(meals.isNotEmpty){
-
-          return ListView.builder(
-            itemCount: meals.length,
-            padding: const EdgeInsets.all(8),
-            itemBuilder: (context, index) => MealsCard(
-              meal: meals[index],
-              openMealDeatailsScreen: () {
-                openMealDeatailsScreen(context, meals[index]);
-              },
-            ),
-          );
-          }
-          return  Center(child: Text("No meal founde",style: Theme.of(context).textTheme.titleLarge,));
+      body: mealsAsync.when(
+        data: (meals) {
+          return meals.isEmpty
+              ? const Center(child: Text("No Meals Found"))
+              : RefreshIndicator(
+                onRefresh: () => ref.read(mealApiProvider.notifier).featchdata(),
+                child: ListView.builder(
+                    itemCount: meals.length,
+                    itemBuilder: (context, index) {
+                      final meal = meals[index];
+                      return MealsCard(
+                        meal: meal,
+                        openMealDeatailsScreen: () => openMealDeatailsScreen(context, meal),
+                      );
+                    },
+                  ),
+              );
         },
+        error: (error, stack) => Center(child: Text("Error: $error")),
+        loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
   }
