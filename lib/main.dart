@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logging/logging.dart';
 import 'package:recipe_app/screen/homePage.dart';
 
 final kcolorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 110, 8, 8),
+  seedColor:  Colors.blueGrey,
   brightness: Brightness.dark,
 );
 void main() {
+   Logger.root.level = Level.ALL; // Show all logs
+  Logger.root.onRecord.listen((record) {
+    Logger(
+      '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}',
+    );
+  });
   runApp(const ProviderScope(child: MyApp()));
 }
 

@@ -3,19 +3,14 @@ import 'package:recipe_app/model/meal_moudel.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MealDeatails extends StatefulWidget {
+class MealDeatails extends StatelessWidget {
   const MealDeatails({super.key, required this.meal});
   final MealMoudel meal;
-  @override
-  State<MealDeatails> createState() => _MealDeatailsState();
-}
-
-class _MealDeatailsState extends State<MealDeatails> {
   void youtubevideo() async {
-    if (widget.meal.youtube == null) {
+    if (meal.youtube == null) {
       return;
     }
-    final Uri? url = Uri.tryParse(widget.meal.youtube!);
+    final Uri? url = Uri.tryParse(meal.youtube!);
     if (!await launchUrl(url!, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
@@ -26,7 +21,7 @@ class _MealDeatailsState extends State<MealDeatails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.meal.meal!,
+          meal.meal!,
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
@@ -36,20 +31,20 @@ class _MealDeatailsState extends State<MealDeatails> {
           Stack(
             children: [
               Hero(
-                tag: widget.meal.id!,
+                tag: meal.id!,
 
                 child: FadeInImage(
                   width: double.infinity,
                   height: 250,
                   fit: BoxFit.cover,
                   placeholder: MemoryImage(kTransparentImage),
-                  image: NetworkImage(widget.meal.image!),
+                  image: NetworkImage(meal.image!),
                 ),
               ),
               Positioned(
                 right: 10,
                 bottom: 10,
-                child: widget.meal.youtube != null
+                child: meal.youtube != null
                     ? Container(
                         width: 60,
                         height: 60,
@@ -73,16 +68,24 @@ class _MealDeatailsState extends State<MealDeatails> {
                 padding: const EdgeInsets.fromLTRB(10, 20, 10, 50),
                 child: Column(
                   children: [
+                     Text(
+                      textAlign: TextAlign.center,
+                      meal.meal!,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                     ),
+                     const SizedBox(height: 10,),
                     Text(
                       "Instructions",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.start,
-                      widget.meal.instructions!,
+                      meal.instructions!,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],

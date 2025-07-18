@@ -44,7 +44,10 @@ class MealsCard extends StatelessWidget {
                   children: [
                     Text(
                       meal.meal!,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 10),
                     Row(

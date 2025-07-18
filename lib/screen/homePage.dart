@@ -13,6 +13,7 @@ class Homepage extends ConsumerStatefulWidget {
 
 class _HomepageState extends ConsumerState<Homepage> {
   late final Future<void> provider;
+  final TextEditingController _searchControler = TextEditingController();
 
   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
     Navigator.of(
@@ -25,13 +26,33 @@ class _HomepageState extends ConsumerState<Homepage> {
     super.initState();
     provider = ref.read(mealApiProvider.notifier).featchdata();
   }
+  @override
+  void dispose() {
+    super.dispose();
+    _searchControler.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealApiProvider);
+    final List<MealMoudel> meals = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Test", style: Theme.of(context).textTheme.titleLarge),
+        title: TextField(
+          controller: _searchControler,
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+          decoration: InputDecoration(
+            hintText: "Search...",
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            fillColor: Theme.of(context).colorScheme.primaryContainer,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              
+            ),
+          ),
+          onSubmitted: (value) => ref.read(mealApiProvider.notifier).searchByName(_searchControler.text),
+        ),
+      
       ),
       body: FutureBuilder(
         future: provider,
@@ -39,6 +60,8 @@ class _HomepageState extends ConsumerState<Homepage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+          if(meals.isNotEmpty){
+
           return ListView.builder(
             itemCount: meals.length,
             padding: const EdgeInsets.all(8),
@@ -49,6 +72,8 @@ class _HomepageState extends ConsumerState<Homepage> {
               },
             ),
           );
+          }
+          return  Center(child: Text("No meal founde",style: Theme.of(context).textTheme.titleLarge,));
         },
       ),
     );

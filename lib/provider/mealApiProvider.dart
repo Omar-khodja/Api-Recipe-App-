@@ -12,6 +12,11 @@ class MealapiNotifire extends StateNotifier<List<MealMoudel>> {
     final meals = await api.featchData();
     state = meals;
   }
+  
+  Future<void> searchByName(String name) async {
+    final meals = await api.apiSearchByName(name);
+    state = meals;
+  }
 }
 
 final _httpClientProvider = Provider.autoDispose((ref) {
