@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/model/meal_moudel.dart';
+import 'package:recipe_app/provider/favoriteMealProvider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/favoriteMeal.dart';
+import 'package:recipe_app/screen/meal_deatails.dart';
 import 'package:recipe_app/screen/meals.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -10,22 +13,23 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage>  {
-int _selectedindex = 0;
+class _HomePageState extends ConsumerState<HomePage> {
+  int _selectedindex = 0;
 
   @override
   void initState() {
     super.initState();
+    ref.read(favoriteMealProvider.notifier).featchData();
     ref.read(mealApiProvider.notifier).featchdata();
- 
   }
 
-  void selectedpage(int index){
+  void selectedpage(int index) {
     setState(() {
       _selectedindex = index;
-      
     });
   }
+ 
+
   @override
   Widget build(BuildContext context) {
     Widget currentpage = const Meals();

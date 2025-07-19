@@ -6,8 +6,9 @@ class MealMoudel {
   final String? instructions;
   final String? image;
   final String? youtube;
+   bool isFavorite;
 
-  const MealMoudel({
+   MealMoudel({
     required this.id,
     required this.meal,
     required this.area,
@@ -15,7 +16,8 @@ class MealMoudel {
     required this.image,
     required this.instructions,
     required this.youtube,
-  });
+    bool? isFavorite ,
+  }):isFavorite = isFavorite ?? false;
   factory MealMoudel.fromJson(Map<String, dynamic> json) {
     return MealMoudel(
       id: json["idMeal"],
@@ -25,6 +27,18 @@ class MealMoudel {
       image: json["strMealThumb"],
       instructions: json["strInstructions"],
       youtube: json["strYoutube"],
+    );
+  }
+  factory MealMoudel.fromDatabase(Map<String, dynamic> json) {
+    return MealMoudel(
+      id: json["id"],
+      meal: json["meal"],
+      area: json["area"],
+      category: json["category"],
+      image: json["image"],
+      instructions: json["instructions"],
+      youtube: json["youtube"],
+      isFavorite: json["isFavorite"] == 1 ? true : false,
     );
   }
 }

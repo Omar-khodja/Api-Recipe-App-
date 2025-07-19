@@ -15,7 +15,7 @@ class _MealsState extends ConsumerState<Meals>
     with SingleTickerProviderStateMixin {
   final TextEditingController _searchControler = TextEditingController();
   late final AnimationController _controller;
-  void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
+   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => MealDeatails(meal: meal)));
@@ -25,7 +25,7 @@ class _MealsState extends ConsumerState<Meals>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 450),
+      duration: const Duration(milliseconds: 350),
     );
     _controller.forward();
   }
@@ -67,6 +67,7 @@ class _MealsState extends ConsumerState<Meals>
                   child: AnimatedBuilder(
                     animation: _controller,
                     child: ListView.builder(
+                      
                       itemCount: meals.length,
                       itemBuilder: (context, index) {
                         final meal = meals[index];
@@ -80,7 +81,7 @@ class _MealsState extends ConsumerState<Meals>
                     builder: (context, child) {
                       return SlideTransition(position: _controller.drive(
                         Tween<Offset>(
-                          begin: const Offset(0, .3),
+                          begin: const Offset(0, 1),
                           end: Offset.zero,
                         ),
                       ), child: child);

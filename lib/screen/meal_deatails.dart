@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/model/meal_moudel.dart';
+import 'package:recipe_app/provider/favoriteMealProvider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MealDeatails extends StatelessWidget {
+class MealDeatails extends ConsumerStatefulWidget {
   const MealDeatails({super.key, required this.meal});
   final MealMoudel meal;
+
+  @override
+  ConsumerState<MealDeatails> createState() => _MealDeatailsState();
+}
+
+class _MealDeatailsState extends ConsumerState<MealDeatails> {
   void youtubevideo() async {
-    if (meal.youtube == null) {
+    if (widget.meal.youtube == null) {
       return;
     }
-    final Uri? url = Uri.tryParse(meal.youtube!);
+    final Uri? url = Uri.tryParse(widget.meal.youtube!);
     if (!await launchUrl(url!, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
   }
+  void saveToFavorite()  {
+    setState(() {
+      widget.meal.isFavorite = !widget.meal.isFavorite;
+    });
+     ref.read(favoriteMealProvider.notifier).insertData(widget.meal);
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: Text(
+          widget.meal.isFavorite ? 'Added to Favorites' : 'Removed from Favorites',style: Theme.of(context).textTheme.titleMedium,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
+    );
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +52,39 @@ class MealDeatails extends StatelessWidget {
             elevation: 0,
             centerTitle: false,
             title: Text(
-              meal.meal!,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Colors.white,
-              ),
+              widget.meal.meal!,
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge!.copyWith(color: Colors.white),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                 saveToFavorite();
+                },
+                icon: widget.meal.isFavorite
+                    ? const Icon(Icons.favorite_outlined, size: 24,color: Colors.red,)
+                    : const Icon(Icons.favorite_border, size: 24,color: Colors.red),
+              ),
+            ],
 
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: [
                   Hero(
-                    tag: meal.id!,
+                    tag: widget.meal.id!,
                     child: FadeInImage(
                       width: double.infinity,
                       height: double.infinity,
                       fit: BoxFit.cover,
                       placeholder: MemoryImage(kTransparentImage),
-                      image: NetworkImage(meal.image!),
+                      image: NetworkImage(widget.meal.image!),
                     ),
                   ),
                   Positioned(
                     right: 10,
                     bottom: 10,
-                    child: meal.youtube != null
+                    child: widget.meal.youtube != null
                         ? Container(
                             width: 60,
                             height: 60,
@@ -102,7 +137,7 @@ class MealDeatails extends StatelessWidget {
                       ),
                       child: Text(
                         textAlign: TextAlign.justify,
-                        meal.instructions!,
+                        widget.meal.instructions!,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
