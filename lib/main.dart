@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
-import 'package:recipe_app/screen/homePage.dart';
+import 'package:recipe_app/screen/home_page.dart';
+import 'package:recipe_app/screen/meals.dart';
 
 final kcolorScheme = ColorScheme.fromSeed(
   seedColor:  Colors.blueGrey,
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(color: kcolorScheme.primaryContainer)
         
       ),
-      home: const Homepage(),
+      home: const HomePage(),
     );
   }
 }

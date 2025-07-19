@@ -5,27 +5,30 @@ import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/meal_deatails.dart';
 import 'package:recipe_app/widget/meals_card.dart';
 
-class Homepage extends ConsumerStatefulWidget {
-  const Homepage({super.key});
+class Meals extends ConsumerStatefulWidget {
+  const Meals({super.key});
   @override
-  ConsumerState<Homepage> createState() => _HomepageState();
+  ConsumerState<Meals> createState() => _MealsState();
 }
 
-class _HomepageState extends ConsumerState<Homepage> {
+class _MealsState extends ConsumerState<Meals>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _searchControler = TextEditingController();
-
+  late final AnimationController _controller;
   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => MealDeatails(meal: meal)));
   }
-
-  @override
+@override
   void initState() {
     super.initState();
- ref.read(mealApiProvider.notifier).featchdata();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
+    );
+    _controller.forward();
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -37,14 +40,15 @@ class _HomepageState extends ConsumerState<Homepage> {
     final AsyncValue<List<MealMoudel>> mealsAsync = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: TextField(
           controller: _searchControler,
           style: const TextStyle(color: Colors.white, fontSize: 18),
-           autofocus: false,
+          autofocus: false,
           decoration: InputDecoration(
             hintText: "Search...",
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            fillColor: Theme.of(context).colorScheme.primaryContainer,
+            fillColor: Theme.of(context).colorScheme.surfaceContainer,
             filled: true,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
           ),
@@ -58,21 +62,35 @@ class _HomepageState extends ConsumerState<Homepage> {
           return meals.isEmpty
               ? const Center(child: Text("No Meals Found"))
               : RefreshIndicator(
-                onRefresh: () => ref.read(mealApiProvider.notifier).featchdata(),
-                child: ListView.builder(
-                    itemCount: meals.length,
-                    itemBuilder: (context, index) {
-                      final meal = meals[index];
-                      return MealsCard(
-                        meal: meal,
-                        openMealDeatailsScreen: () => openMealDeatailsScreen(context, meal),
-                      );
+                  onRefresh: () =>
+                      ref.read(mealApiProvider.notifier).featchdata(),
+                  child: AnimatedBuilder(
+                    animation: _controller,
+                    child: ListView.builder(
+                      itemCount: meals.length,
+                      itemBuilder: (context, index) {
+                        final meal = meals[index];
+                        return MealsCard(
+                          meal: meal,
+                          openMealDeatailsScreen: () =>
+                              openMealDeatailsScreen(context, meal),
+                        );
+                      },
+                    ),
+                    builder: (context, child) {
+                      return SlideTransition(position: _controller.drive(
+                        Tween<Offset>(
+                          begin: const Offset(0, .3),
+                          end: Offset.zero,
+                        ),
+                      ), child: child);
                     },
                   ),
-              );
+                );
         },
         error: (error, stack) => Center(child: Text("Error: $error")),
         loading: () => const Center(child: CircularProgressIndicator()),
+        
       ),
     );
   }
