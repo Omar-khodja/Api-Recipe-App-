@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/model/meal_moudel.dart';
 import 'package:recipe_app/provider/favoriteMealProvider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/favoriteMeal.dart';
-import 'package:recipe_app/screen/meal_deatails.dart';
 import 'package:recipe_app/screen/meals.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -39,7 +37,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       body: currentpage,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         currentIndex: _selectedindex,
         fixedColor: Colors.green,
         onTap: (value) {

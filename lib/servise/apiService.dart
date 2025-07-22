@@ -5,16 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:recipe_app/model/meal_moudel.dart';
 
-String _randomlatter(){
-
-final random = Random();
-const letters = 'abcdefghijklmnopqrstuvwxyz';
-int index = random.nextInt(letters.length);
-final rlatter = letters[index];
-print(rlatter);
-return rlatter;
+String _randomlatter() {
+  final random = Random();
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  int index = random.nextInt(letters.length);
+  final rlatter = letters[index];
+  print(rlatter);
+  return rlatter;
 }
-
 
 class Apiservice {
   final _logger = Logger("api service");
@@ -30,7 +28,6 @@ class Apiservice {
       final respons = await client.get(url);
       if (respons.statusCode == 200) {
         final data = json.decode(respons.body);
-        _logger.info(data);
         final meals = data["meals"] as List;
         return meals.map((e) => MealMoudel.fromJson(e)).toList();
       } else {

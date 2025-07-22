@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
 import 'package:recipe_app/screen/home_page.dart';
-import 'package:recipe_app/screen/meals.dart';
 
 final kcolorScheme = ColorScheme.fromSeed(
   seedColor:  Colors.blueGrey,

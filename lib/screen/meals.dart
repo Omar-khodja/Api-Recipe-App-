@@ -4,6 +4,7 @@ import 'package:recipe_app/model/meal_moudel.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/meal_deatails.dart';
 import 'package:recipe_app/widget/meals_card.dart';
+import 'package:recipe_app/widget/searchbar.dart';
 
 class Meals extends ConsumerStatefulWidget {
   const Meals({super.key});
@@ -15,12 +16,13 @@ class _MealsState extends ConsumerState<Meals>
     with SingleTickerProviderStateMixin {
   final TextEditingController _searchControler = TextEditingController();
   late final AnimationController _controller;
-   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
+  void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => MealDeatails(meal: meal)));
   }
-@override
+
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(
@@ -29,6 +31,7 @@ class _MealsState extends ConsumerState<Meals>
     );
     _controller.forward();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -40,22 +43,8 @@ class _MealsState extends ConsumerState<Meals>
     final AsyncValue<List<MealMoudel>> mealsAsync = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: TextField(
-          controller: _searchControler,
-          style: const TextStyle(color: Colors.white, fontSize: 18),
-          autofocus: false,
-          decoration: InputDecoration(
-            hintText: "Search...",
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            fillColor: Theme.of(context).colorScheme.surfaceContainer,
-            filled: true,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
-          ),
-          onSubmitted: (value) => ref
-              .read(mealApiProvider.notifier)
-              .searchByName(_searchControler.text),
-        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Searchtextfailed(controller: _searchControler),
       ),
       body: mealsAsync.when(
         data: (meals) {
@@ -67,7 +56,6 @@ class _MealsState extends ConsumerState<Meals>
                   child: AnimatedBuilder(
                     animation: _controller,
                     child: ListView.builder(
-                      
                       itemCount: meals.length,
                       itemBuilder: (context, index) {
                         final meal = meals[index];
@@ -79,19 +67,21 @@ class _MealsState extends ConsumerState<Meals>
                       },
                     ),
                     builder: (context, child) {
-                      return SlideTransition(position: _controller.drive(
-                        Tween<Offset>(
-                          begin: const Offset(0, 1),
-                          end: Offset.zero,
+                      return SlideTransition(
+                        position: _controller.drive(
+                          Tween<Offset>(
+                            begin: const Offset(0, 1),
+                            end: Offset.zero,
+                          ),
                         ),
-                      ), child: child);
+                        child: child,
+                      );
                     },
                   ),
                 );
         },
         error: (error, stack) => Center(child: Text("Error: $error")),
         loading: () => const Center(child: CircularProgressIndicator()),
-        
       ),
     );
   }

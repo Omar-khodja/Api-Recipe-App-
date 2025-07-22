@@ -14,6 +14,7 @@ class MealDeatails extends ConsumerStatefulWidget {
 }
 
 class _MealDeatailsState extends ConsumerState<MealDeatails> {
+
   void youtubevideo() async {
     if (widget.meal.youtube == null) {
       return;
@@ -23,9 +24,9 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
       throw Exception('Could not launch $url');
     }
   }
-  void saveToFavorite()  {
+  void saveToFavorite(bool isFavorite)  {
     setState(() {
-      widget.meal.isFavorite = !widget.meal.isFavorite;
+      widget.meal.isFavorite = !isFavorite;
     });
      ref.read(favoriteMealProvider.notifier).insertData(widget.meal);
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -33,7 +34,7 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
       SnackBar(
         duration: const Duration(seconds: 3),
         content: Text(
-          widget.meal.isFavorite ? 'Added to Favorites' : 'Removed from Favorites',style: Theme.of(context).textTheme.titleMedium,
+          !isFavorite ? 'Added to Favorites' : 'Removed from Favorites',style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
@@ -43,6 +44,9 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
 
   @override
   Widget build(BuildContext context) {
+    final favoritemeal = ref.watch(favoriteMealProvider);
+    final isFavorite = favoritemeal.value?.any((meal) => meal.id == widget.meal.id) ?? false;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -60,9 +64,9 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
             actions: [
               IconButton(
                 onPressed: () {
-                 saveToFavorite();
+                 saveToFavorite(isFavorite);
                 },
-                icon: widget.meal.isFavorite
+                icon: isFavorite
                     ? const Icon(Icons.favorite_outlined, size: 24,color: Colors.red,)
                     : const Icon(Icons.favorite_border, size: 24,color: Colors.red),
               ),
@@ -103,6 +107,7 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
               ),
             ),
           ),
+          
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: 1, (
               context,
