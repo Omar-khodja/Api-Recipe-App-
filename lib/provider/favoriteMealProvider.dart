@@ -1,34 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:recipe_app/database/localDataBase.dart';
 import 'package:recipe_app/model/meal_moudel.dart';
-import 'package:sqflite/sqflite.dart' as sql;
-import 'package:path/path.dart' as p;
-import 'package:sqflite/sqlite_api.dart';
+
 
 final _looger = Logger("FavoriteMealProvider");
-Future<Database> _getData() async {
-  try {
-    final dbpath = await sql.getDatabasesPath();
-    final path = p.join(dbpath, 'favorite_meals.db');
-    final db = await sql.openDatabase(
-      path,
-      onCreate: (db, version) => db.execute(
-        "CREATE TABLE Meals(id TEXT PRIMARY KEY , meal TEXT , area TEXT,category TEXT , image TEXT,instructions TEXT ,youtube TEXT,isFavorite INTEGER)",
-      ),
-      version: 1,
-    );
-    return db;
-  } catch (e, st) {
-    throw Exception('Error opening database: $e\n$st');
-  }
-}
+
 
 class FavoriteMealNotifire extends StateNotifier<AsyncValue<List<MealMoudel>>> {
   FavoriteMealNotifire() : super(const AsyncValue.data([]));
+  final Localdatabase database =  Localdatabase();
 
   void featchData() async {
     try {
-      final db = await _getData();
+      final db = await database.getData();
       final data = await db.query('Meals');
       state = AsyncValue.data(
         data.map((e) => MealMoudel.fromDatabase(e)).toList(),
@@ -44,7 +29,7 @@ class FavoriteMealNotifire extends StateNotifier<AsyncValue<List<MealMoudel>>> {
         state.value?.any((element) => element.id == meal.id) ?? false;
     if (!exists) {
       try {
-        final db = await _getData();
+        final db = await database.getData();
         await db.insert('Meals', {
           "id": meal.id,
           "meal": meal.meal,
@@ -63,7 +48,7 @@ class FavoriteMealNotifire extends StateNotifier<AsyncValue<List<MealMoudel>>> {
       }
     } else {
       try {
-        final db = await _getData();
+        final db = await database.getData();
         await db.delete('Meals', where: 'id = ?', whereArgs: [meal.id]);
         final currentlist = state.value ?? [];
         state = AsyncValue.data(

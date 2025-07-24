@@ -8,13 +8,19 @@ final kcolorScheme = ColorScheme.fromSeed(
   seedColor:  Colors.blueGrey,
   brightness: Brightness.dark,
 );
-void main() {
-   Logger.root.level = Level.ALL; // Show all logs
+void setupLogger() {
+  Logger.root.level = Level.ALL; // Log everything (use Level.INFO for release)
   Logger.root.onRecord.listen((record) {
-    Logger(
-      '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}',
+    debugPrint(
+      '[${record.level.name}] '
+      '${record.time.toIso8601String()} '
+      '${record.loggerName}: '
+      '${record.message}',
     );
   });
+}
+void main() {
+   setupLogger();
   runApp(const ProviderScope(child: MyApp()));
 }
 

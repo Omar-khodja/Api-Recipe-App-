@@ -24,6 +24,8 @@ class MealapiNotifire extends StateNotifier<AsyncValue<List<MealMoudel>>> {
       state = AsyncValue.error(e, st);
     }
   }
+
+  
 }
 
 final _httpClientProvider = Provider.autoDispose((ref) {
@@ -33,13 +35,13 @@ final _httpClientProvider = Provider.autoDispose((ref) {
   });
   return client;
 });
-final _apiServiceProvider = Provider<Apiservice>((ref) {
+final apiServiceProvider = Provider<Apiservice>((ref) {
   final client = ref.watch(_httpClientProvider);
   return Apiservice(client: client);
 });
 
 final mealApiProvider =
     StateNotifierProvider<MealapiNotifire, AsyncValue<List<MealMoudel>>>((ref) {
-      final api = ref.watch(_apiServiceProvider);
+      final api = ref.watch(apiServiceProvider);
       return MealapiNotifire(api);
     });

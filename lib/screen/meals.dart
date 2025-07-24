@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/database/localDataBase.dart';
 import 'package:recipe_app/model/meal_moudel.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/meal_deatails.dart';
@@ -15,6 +17,8 @@ class Meals extends ConsumerStatefulWidget {
 class _MealsState extends ConsumerState<Meals>
     with SingleTickerProviderStateMixin {
   final TextEditingController _searchControler = TextEditingController();
+  final Localdatabase localDatabase = Localdatabase();
+
   late final AnimationController _controller;
   void openMealDeatailsScreen(BuildContext context, MealMoudel meal) {
     Navigator.of(
@@ -48,37 +52,40 @@ class _MealsState extends ConsumerState<Meals>
       ),
       body: mealsAsync.when(
         data: (meals) {
-          return meals.isEmpty
-              ? const Center(child: Text("No Meals Found"))
-              : RefreshIndicator(
-                  onRefresh: () =>
-                      ref.read(mealApiProvider.notifier).featchdata(),
-                  child: AnimatedBuilder(
-                    animation: _controller,
-                    child: ListView.builder(
-                      itemCount: meals.length,
-                      itemBuilder: (context, index) {
-                        final meal = meals[index];
-                        return MealsCard(
-                          meal: meal,
-                          openMealDeatailsScreen: () =>
-                              openMealDeatailsScreen(context, meal),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: meals.isEmpty
+                ? const Center(child: Text("No Meals Found"))
+                : RefreshIndicator(
+                    onRefresh: () =>
+                        ref.read(mealApiProvider.notifier).featchdata(),
+                    child: AnimatedBuilder(
+                      animation: _controller,
+                      child: ListView.builder(
+                        itemCount: meals.length,
+                        itemBuilder: (context, index) {
+                          final meal = meals[index];
+                          return MealsCard(
+                            meal: meal,
+                            openMealDeatailsScreen: () =>
+                                openMealDeatailsScreen(context, meal),
+                          );
+                        },
+                      ),
+                      builder: (context, child) {
+                        return SlideTransition(
+                          position: _controller.drive(
+                            Tween<Offset>(
+                              begin: const Offset(0, 1),
+                              end: Offset.zero,
+                            ),
+                          ),
+                          child: child,
                         );
                       },
                     ),
-                    builder: (context, child) {
-                      return SlideTransition(
-                        position: _controller.drive(
-                          Tween<Offset>(
-                            begin: const Offset(0, 1),
-                            end: Offset.zero,
-                          ),
-                        ),
-                        child: child,
-                      );
-                    },
                   ),
-                );
+          );
         },
         error: (error, stack) => Center(child: Text("Error: $error")),
         loading: () => const Center(child: CircularProgressIndicator()),

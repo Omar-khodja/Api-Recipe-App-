@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/provider/categoryMealProvider.dart';
 import 'package:recipe_app/provider/favoriteMealProvider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
+import 'package:recipe_app/screen/category_screen.dart';
 import 'package:recipe_app/screen/favoriteMeal.dart';
 import 'package:recipe_app/screen/meals.dart';
 
@@ -18,6 +20,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     ref.read(favoriteMealProvider.notifier).featchData();
+    ref.read(categoryMealProvider.notifier).featchdata();
     ref.read(mealApiProvider.notifier).featchdata();
   }
 
@@ -26,12 +29,13 @@ class _HomePageState extends ConsumerState<HomePage> {
       _selectedindex = index;
     });
   }
- 
 
   @override
   Widget build(BuildContext context) {
-    Widget currentpage = const Meals();
+    Widget currentpage = const CategoryScreen();
     if (_selectedindex == 1) {
+      currentpage = const Meals();
+    } else if (_selectedindex == 2) {
       currentpage = const Favoritemeal();
     }
     return Scaffold(
@@ -44,6 +48,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           selectedpage(value);
         },
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.food_bank),
+            label: 'Category',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dinner_dining),
             label: 'Meals',

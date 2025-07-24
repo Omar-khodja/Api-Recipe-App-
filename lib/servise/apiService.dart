@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:recipe_app/model/category_moudel.dart';
 import 'package:recipe_app/model/meal_moudel.dart';
 
 String _randomlatter() {
@@ -27,11 +28,13 @@ class Apiservice {
     try {
       final respons = await client.get(url);
       if (respons.statusCode == 200) {
+        _logger.info("Meal Response status: ${respons.statusCode}");
+
         final data = json.decode(respons.body);
         final meals = data["meals"] as List;
         return meals.map((e) => MealMoudel.fromJson(e)).toList();
       } else {
-        _logger.warning("failed to featch data : ${respons.statusCode}");
+        _logger.warning("failed to featch data (Meals): ${respons.statusCode}");
       }
     } catch (e, stackTrace) {
       _logger.severe("Exception occurred: $e", e, stackTrace);
@@ -45,13 +48,35 @@ class Apiservice {
     );
     try {
       final respons = await client.get(url);
+      _logger.info("Search Response status: ${respons.statusCode}");
+
       if (respons.statusCode == 200) {
         final data = json.decode(respons.body);
         _logger.info(data);
         final meals = data["meals"] as List;
         return meals.map((e) => MealMoudel.fromJson(e)).toList();
       } else {
-        _logger.warning("failed to featch data : ${respons.statusCode}");
+        _logger.warning("failed to featch data (Search) : ${respons.statusCode}");
+      }
+    } catch (e, stackTrace) {
+      _logger.severe("Exception occurred: $e", e, stackTrace);
+    }
+    return [];
+  }
+
+  Future<List<CategoryMoudel>> featchCategory() async {
+    final url = Uri.parse(
+      "https://www.themealdb.com/api/json/v1/1/categories.php",
+    );
+    try {
+      final respons = await client.get(url);
+      _logger.info("Category Response status: ${respons.statusCode}");
+      if (respons.statusCode == 200) {
+        final data = json.decode(respons.body);
+        final meals = data["categories"] as List;
+        return meals.map((e) => CategoryMoudel.fromJson(e)).toList();
+      } else {
+        _logger.warning("failed to featch Category data  : ${respons.statusCode}");
       }
     } catch (e, stackTrace) {
       _logger.severe("Exception occurred: $e", e, stackTrace);
