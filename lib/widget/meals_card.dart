@@ -4,13 +4,17 @@ import 'package:recipe_app/widget/mealcard_content.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealsCard extends StatelessWidget {
-  const MealsCard({super.key, required this.meal,required this.openMealDeatailsScreen});
+  const MealsCard({
+    super.key,
+    required this.meal,
+    required this.openMealDeatailsScreen,
+  });
   final MealMoudel meal;
   final Function() openMealDeatailsScreen;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-    splashColor: Theme.of(context).colorScheme.primary.withValues(alpha: .3),
+      splashColor: Theme.of(context).colorScheme.primary.withValues(alpha: .3),
 
       borderRadius: BorderRadius.circular(12),
       onTap: openMealDeatailsScreen,
@@ -36,7 +40,6 @@ class MealsCard extends StatelessWidget {
               left: 0,
               bottom: 0,
               child: Container(
-                padding: const EdgeInsets.all(8),
                 height: 100,
                 color: Colors.black45,
                 child: Column(
@@ -47,14 +50,11 @@ class MealsCard extends StatelessWidget {
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                     Row(
-                      mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         MealcardContent(
                           iCon: Icons.location_on,
@@ -62,7 +62,7 @@ class MealsCard extends StatelessWidget {
                         ),
                         MealcardContent(
                           iCon: Icons.restaurant_menu,
-      
+
                           title: meal.category!,
                         ),
                       ],

@@ -41,9 +41,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       body: currentpage,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         currentIndex: _selectedindex,
-        fixedColor: Colors.green,
+        fixedColor: Colors.greenAccent,
         onTap: (value) {
           selectedpage(value);
         },

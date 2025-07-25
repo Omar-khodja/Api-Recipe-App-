@@ -18,10 +18,9 @@ class Searchtextfailed extends ConsumerWidget {
           ),
         hintText: "Search...",
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        fillColor: Theme.of(context).colorScheme.surfaceContainer,
+        fillColor: Theme.of(context).colorScheme.onPrimary,
         filled: true,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
-        focusedBorder:  OutlineInputBorder(borderSide:const  BorderSide(color: Colors.green, width: 1),borderRadius: BorderRadius.circular(24)),
       ),
       onSubmitted: (value) {
         if(value.trim().isEmpty) {

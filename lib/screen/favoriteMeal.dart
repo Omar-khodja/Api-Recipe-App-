@@ -19,7 +19,7 @@ class Favoritemeal extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorite Meals'),
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        
       ),
       body: favoriteMeals.when(
         data: (meals) => meals.isEmpty

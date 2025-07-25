@@ -49,14 +49,12 @@ class _MealsState extends ConsumerState<Meals>
     final AsyncValue<List<MealMoudel>> mealsAsync = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: widget.showSearchbar? Theme.of(context).colorScheme.primaryContainer: Theme.of(context).colorScheme.primaryContainer,
         title: widget.showSearchbar ? Searchtextfailed(controller: _searchControler) :  Text(widget.title!,style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: mealsAsync.when(
         data: (meals) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: meals.isEmpty
+          return meals.isEmpty
                 ? const Center(child: Text("No Meals Found"))
                 : RefreshIndicator(
                     onRefresh: () =>
@@ -86,7 +84,6 @@ class _MealsState extends ConsumerState<Meals>
                         );
                       },
                     ),
-                  ),
           );
         },
         error: (error, stack) => Center(child: Text("Error: $error")),
