@@ -83,4 +83,48 @@ class Apiservice {
     }
     return [];
   }
+  Future<List<MealMoudel>> filterByCategory(String category) async {
+    final meals = <MealMoudel>[];
+    final url = Uri.parse(
+      "https://www.themealdb.com/api/json/v1/1/filter.php?c=$category",
+    );
+
+    try {
+      final response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final mealsData = data["meals"] as List;
+
+        for (var meal in mealsData) {
+          final mealId = meal["idMeal"];
+          final detailUrl = Uri.parse(
+            "https://www.themealdb.com/api/json/v1/1/lookup.php?i=$mealId",
+          );
+
+          final detailResponse = await client.get(detailUrl);
+          if (detailResponse.statusCode == 200) {
+            final detailData = json.decode(detailResponse.body);
+            final mealDetails = detailData["meals"];
+            if (mealDetails != null && mealDetails.isNotEmpty) {
+              meals.add(MealMoudel.fromJson(mealDetails[0]));
+            }
+          } else {
+            _logger.warning("Failed to fetch meal details for id $mealId");
+          }
+        }
+
+        return meals;
+      } else {
+        _logger.warning(
+          "Failed to fetch category data: ${response.statusCode}",
+        );
+      }
+    } catch (e, stackTrace) {
+      _logger.severe("Exception in filterByCategory: $e", e, stackTrace);
+    }
+
+    return [];
+  }
+
 }

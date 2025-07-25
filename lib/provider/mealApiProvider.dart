@@ -24,6 +24,14 @@ class MealapiNotifire extends StateNotifier<AsyncValue<List<MealMoudel>>> {
       state = AsyncValue.error(e, st);
     }
   }
+  Future<void> filterByCategory(String category) async {
+    try {
+      final meals = await api.filterByCategory(category);
+      state = AsyncValue.data(meals);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
 
   
 }

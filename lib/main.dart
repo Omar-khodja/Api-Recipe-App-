@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:recipe_app/screen/home_page.dart';
 
 final kcolorScheme = ColorScheme.fromSeed(
-  seedColor:  Colors.blueGrey,
+  seedColor:  Colors.green,
   brightness: Brightness.dark,
 );
 void setupLogger() {

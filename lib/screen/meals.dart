@@ -9,7 +9,9 @@ import 'package:recipe_app/widget/meals_card.dart';
 import 'package:recipe_app/widget/searchbar.dart';
 
 class Meals extends ConsumerStatefulWidget {
-  const Meals({super.key});
+  const Meals({super.key,required this.showSearchbar,this.title});
+  final bool showSearchbar;
+  final String? title;
   @override
   ConsumerState<Meals> createState() => _MealsState();
 }
@@ -48,7 +50,7 @@ class _MealsState extends ConsumerState<Meals>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Searchtextfailed(controller: _searchControler),
+        title: widget.showSearchbar ? Searchtextfailed(controller: _searchControler) :  Text(widget.title!,style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: mealsAsync.when(
         data: (meals) {

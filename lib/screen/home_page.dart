@@ -34,7 +34,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     Widget currentpage = const CategoryScreen();
     if (_selectedindex == 1) {
-      currentpage = const Meals();
+      currentpage = const Meals(showSearchbar: true);
     } else if (_selectedindex == 2) {
       currentpage = const Favoritemeal();
     }
