@@ -22,9 +22,11 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     });
     await ref.read(mealApiProvider.notifier).filterByCategory(categorie);
     if (!mounted) return;
-    await Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) =>  Meals(showSearchbar: false, title: categorie)));
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Meals(showSearchbar: false, title: categorie),
+      ),
+    );
     if (!mounted) return;
     setState(() {
       _isLoading = false;
@@ -67,6 +69,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                         )
                         .toList(),
                   ),
+
             error: (error, stackTrace) => Center(child: Text("Error: $error")),
             loading: () => const Center(child: CircularProgressIndicator()),
           ),
@@ -76,9 +79,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
                 child: Container(
                   color: Colors.black.withValues(alpha: 0.5),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
               ),
             ),
