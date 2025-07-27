@@ -9,7 +9,7 @@ class MealcardContent extends StatelessWidget {
     return Row(children: [
       Icon(iCon),
       const SizedBox(width: 3,),
-      Text(title,style: Theme.of(context).textTheme.titleMedium,)
+      Text(title,style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),)
     ],);
   }
 }

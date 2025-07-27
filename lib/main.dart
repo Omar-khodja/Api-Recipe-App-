@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             
             textTheme: GoogleFonts.ralewayTextTheme().copyWith(
               titleLarge: TextStyle(color: kcolorSchemelight.onInverseSurface),
-              titleMedium: TextStyle(color: kcolorSchemelight.onInverseSurface),
+              titleMedium: TextStyle(color: kcolorSchemelight.onSurface),
               
               
             ),
