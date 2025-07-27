@@ -35,9 +35,6 @@ class _MealsState extends ConsumerState<Meals> {
     final AsyncValue<List<MealMoudel>> mealsAsync = ref.watch(mealApiProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: widget.showSearchbar
-            ? Theme.of(context).colorScheme.primaryContainer
-            : Theme.of(context).colorScheme.primaryContainer,
         title: widget.showSearchbar
             ? Searchtextfailed(controller: _searchControler)
             : Text(
@@ -53,6 +50,7 @@ class _MealsState extends ConsumerState<Meals> {
                   onRefresh: () =>
                       ref.read(mealApiProvider.notifier).featchdata(),
                   child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     itemCount: meals.length,
                     itemBuilder: (context, index) {
                       final meal = meals[index];

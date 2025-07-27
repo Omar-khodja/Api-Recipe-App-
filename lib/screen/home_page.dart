@@ -34,16 +34,15 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     Widget currentpage = const CategoryScreen();
     if (_selectedindex == 1) {
-      currentpage = Meals(showSearchbar: true);
+      currentpage = const Meals(showSearchbar: true);
     } else if (_selectedindex == 2) {
       currentpage = const Favoritemeal();
     }
     return Scaffold(
       body: currentpage,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+     
         currentIndex: _selectedindex,
-        fixedColor: Colors.greenAccent,
         onTap: (value) {
           selectedpage(value);
         },

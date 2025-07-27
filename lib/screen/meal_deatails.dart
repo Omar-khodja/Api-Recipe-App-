@@ -14,7 +14,6 @@ class MealDeatails extends ConsumerStatefulWidget {
 }
 
 class _MealDeatailsState extends ConsumerState<MealDeatails> {
-
   void youtubevideo() async {
     if (widget.meal.youtube == null) {
       return;
@@ -24,28 +23,32 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
       throw Exception('Could not launch $url');
     }
   }
-  void saveToFavorite(bool isFavorite)  {
+
+  void saveToFavorite(bool isFavorite) {
     setState(() {
       widget.meal.isFavorite = !isFavorite;
     });
-     ref.read(favoriteMealProvider.notifier).insertData(widget.meal);
+    ref.read(favoriteMealProvider.notifier).insertData(widget.meal);
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
         content: Text(
-          !isFavorite ? 'Added to Favorites' : 'Removed from Favorites',style: Theme.of(context).textTheme.titleMedium,
+          !isFavorite ? 'Added to Favorites' : 'Removed from Favorites',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.primaryContainer,
       ),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
     final favoritemeal = ref.watch(favoriteMealProvider);
-    final isFavorite = favoritemeal.value?.any((meal) => meal.id == widget.meal.id) ?? false;
+    final isFavorite =
+        favoritemeal.value?.any((meal) => meal.id == widget.meal.id) ?? false;
 
     return Scaffold(
       body: CustomScrollView(
@@ -64,11 +67,19 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
             actions: [
               IconButton(
                 onPressed: () {
-                 saveToFavorite(isFavorite);
+                  saveToFavorite(isFavorite);
                 },
                 icon: isFavorite
-                    ? const Icon(Icons.favorite_outlined, size: 24,color: Colors.red,)
-                    : const Icon(Icons.favorite_border, size: 24,color: Colors.red),
+                    ? const Icon(
+                        Icons.favorite_outlined,
+                        size: 24,
+                        color: Colors.red,
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                        size: 24,
+                        color: Colors.red,
+                      ),
               ),
             ],
 
@@ -107,7 +118,7 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
               ),
             ),
           ),
-          
+
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: 1, (
               context,

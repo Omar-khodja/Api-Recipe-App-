@@ -22,18 +22,20 @@ class _CategoryCardState extends State<CategoryCard> {
       borderRadius: BorderRadius.circular(12),
       splashColor: Colors.green.withValues(alpha: .3),
       highlightColor: Colors.green.withValues(alpha: .3),
+      
       onTap: () {
         widget.onCategorySelected();
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         clipBehavior: Clip.antiAlias,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         child: Stack(
           children: [
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(widget.category.imageUrl),
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
               height: 150,
               width: double.infinity,
             ),

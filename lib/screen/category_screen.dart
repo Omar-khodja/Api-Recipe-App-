@@ -37,7 +37,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   Widget build(BuildContext context) {
     final category = ref.watch(categoryMealProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
+      appBar: AppBar(title:  Text('Categories',style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),),),
       body: Stack(
         children: [
           category.when(
