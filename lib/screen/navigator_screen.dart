@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/provider/categoryMealProvider.dart';
+import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
 import 'package:recipe_app/provider/favoriteMealProvider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
-import 'package:recipe_app/screen/category_screen.dart';
+import 'package:recipe_app/featurs/category/presentation/screen/category_screen.dart';
 import 'package:recipe_app/screen/favoriteMeal.dart';
 import 'package:recipe_app/screen/meals.dart';
 

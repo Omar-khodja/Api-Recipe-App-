@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/model/category_moudel.dart';
+import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CategoryCard extends StatefulWidget {
@@ -9,7 +9,7 @@ class CategoryCard extends StatefulWidget {
     required this.onCategorySelected,
   });
   final Function() onCategorySelected;
-  final CategoryMoudel category;
+  final Categoryentities category;
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();

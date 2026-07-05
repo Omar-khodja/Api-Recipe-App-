@@ -1,12 +1,10 @@
-class CategoryMoudel {
-  final String id;
-  final String title;
-  final String imageUrl;
+import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 
+class CategoryMoudel extends Categoryentities {
   CategoryMoudel({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
+    required super.id,
+    required super.title,
+    required super.imageUrl,
   });
 
   factory CategoryMoudel.fromJson(Map<String, dynamic> json) {
