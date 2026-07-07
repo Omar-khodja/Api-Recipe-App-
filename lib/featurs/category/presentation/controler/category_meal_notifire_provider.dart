@@ -13,6 +13,7 @@ class CategoryMealNotifire
 
   Future<void> featchdata() async {
     state = const Loading();
+    await Future.delayed(const Duration(seconds: 5));
     final category = await usecase.call(const NoParams());
 
     state = category;

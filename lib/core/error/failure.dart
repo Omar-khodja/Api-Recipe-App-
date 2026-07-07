@@ -8,3 +8,6 @@ class Failure  {
 class ApiFailure extends Failure {
   const ApiFailure(super.message); 
 }
+class LocalDataBaseFailure extends Failure {
+  const LocalDataBaseFailure(super.message);
+}

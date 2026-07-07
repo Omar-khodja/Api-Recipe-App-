@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logging/logging.dart';
 import 'package:recipe_app/screen/navigator_screen.dart';
 
 final kcolorSchemedark = ColorScheme.fromSeed(
@@ -12,20 +11,9 @@ final kcolorSchemelight = ColorScheme.fromSeed(
   seedColor: Colors.blueAccent,
   brightness: Brightness.light,
 );
-void setupLogger() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    debugPrint(
-      '[${record.level.name}] '
-      '${record.time.toIso8601String()} '
-      '${record.loggerName}: '
-      '${record.message}',
-    );
-  });
-}
+
 
 void main() {
-  setupLogger();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -77,7 +65,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
       themeMode: ThemeMode.system,
-      home: const HomePage(),
+      home: const NavigatorScreen(),
     );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/model/meal_moudel.dart';
-import 'package:recipe_app/provider/favoriteMealProvider.dart';
+import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
+import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MealDeatails extends ConsumerStatefulWidget {
   const MealDeatails({super.key, required this.meal});
-  final MealMoudel meal;
+  final Meal meal;
 
   @override
   ConsumerState<MealDeatails> createState() => _MealDeatailsState();
@@ -28,7 +28,7 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
     setState(() {
       widget.meal.isFavorite = !isFavorite;
     });
-    ref.read(favoriteMealProvider.notifier).insertData(widget.meal);
+    ref.read(favoriteMealNotifireProvider.notifier).addToFavorite(widget.meal);
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -46,9 +46,8 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
 
   @override
   Widget build(BuildContext context) {
-    final favoritemeal = ref.watch(favoriteMealProvider);
-    final isFavorite =
-        favoritemeal.value?.any((meal) => meal.id == widget.meal.id) ?? false;
+    final favoritemeal = ref.watch(favoriteMealNotifireProvider);
+    final isFavorite =true;
 
     return Scaffold(
       body: CustomScrollView(

@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/core/result.dart';
+import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/screen/meals.dart';
-import 'package:recipe_app/widget/category_card.dart';
+import 'package:recipe_app/featurs/category/presentation/widget/category_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoryScreen extends ConsumerStatefulWidget {
   const CategoryScreen({super.key});
@@ -15,6 +17,8 @@ class CategoryScreen extends ConsumerStatefulWidget {
 }
 
 class _CategoryScreenState extends ConsumerState<CategoryScreen> {
+  final emptycategory = Categoryentities(id: '', title: 'ssssss', imageUrl: '');
+
   void selectedCategory(BuildContext context, String categorie) async {
     await ref.read(mealApiProvider.notifier).filterByCategory(categorie);
     if (!mounted) return;
@@ -41,11 +45,27 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
       body: Stack(
         children: [
           switch (category) {
-            Loading() => const Center(child: CircularProgressIndicator()),
-            Error(errorMessage: final message) => Center(
-              child: Text(message.message),
+            Loading() => Skeletonizer(
+              child: GridView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisExtent: 200,
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: 6,
+                itemBuilder: (context, index) => CategoryCard(
+                  category: emptycategory,
+                  onCategorySelected: () {},
+                ),
+              ),
             ),
-            Success(data: final data) => GridView(
+            Error(  ) =>const  Center(
+              child: Text("somthing went wrong try again later!"),
+            ),
+            Success(data: final data) => GridView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 200,
@@ -53,17 +73,15 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 childAspectRatio: 1.5,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
+                
               ),
-              children: data
-                  .map(
-                    (e) => CategoryCard(
-                      category: e,
-                      onCategorySelected: () {
-                        selectedCategory(context, e.title);
-                      },
-                    ),
-                  )
-                  .toList(),
+              itemCount: data.length,
+              itemBuilder: (context, index) => CategoryCard(
+                category: data[index],
+                onCategorySelected: () {
+                  selectedCategory(context, data[index].title);
+                },
+              ),
             ),
           },
         ],

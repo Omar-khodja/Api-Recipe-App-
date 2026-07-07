@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/model/meal_moudel.dart';
+import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
 import 'package:recipe_app/widget/mealcard_content.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -9,7 +9,7 @@ class MealsCard extends StatelessWidget {
     required this.meal,
     required this.openMealDeatailsScreen,
   });
-  final MealMoudel meal;
+  final Meal meal;
   final Function() openMealDeatailsScreen;
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class MealsCard extends StatelessWidget {
                         children: [
                           MealcardContent(
                             iCon: Icons.location_on,
-                            title: meal.area!,
+                            title: meal.area == null ? 'Unknown' : meal.area!,
                           ),
                           MealcardContent(
                             iCon: Icons.restaurant_menu,

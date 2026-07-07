@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
-import 'package:recipe_app/provider/favoriteMealProvider.dart';
+import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/featurs/category/presentation/screen/category_screen.dart';
-import 'package:recipe_app/screen/favoriteMeal.dart';
+import 'package:recipe_app/featurs/favorite_meals/presentation/screen/favoriteMeal.dart';
 import 'package:recipe_app/screen/meals.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class NavigatorScreen extends ConsumerStatefulWidget {
+  const NavigatorScreen({super.key});
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  ConsumerState<NavigatorScreen> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends ConsumerState<NavigatorScreen> {
   int _selectedindex = 0;
 
   @override
   void initState() {
     super.initState();
-    ref.read(favoriteMealProvider.notifier).featchData();
+    ref.read(favoriteMealNotifireProvider.notifier).featchFavoriteMeals();
     ref.read(categoryMealProvider.notifier).featchdata();
     ref.read(mealApiProvider.notifier).featchdata();
   }

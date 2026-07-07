@@ -22,7 +22,7 @@ class _CategoryCardState extends State<CategoryCard> {
       borderRadius: BorderRadius.circular(12),
       splashColor: Colors.green.withValues(alpha: .3),
       highlightColor: Colors.green.withValues(alpha: .3),
-      
+
       onTap: () {
         widget.onCategorySelected();
       },
@@ -32,13 +32,19 @@ class _CategoryCardState extends State<CategoryCard> {
         color: Theme.of(context).colorScheme.surfaceContainer,
         child: Stack(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(widget.category.imageUrl),
-              fit: BoxFit.fitWidth,
-              height: 150,
-              width: double.infinity,
-            ),
+            widget.category.imageUrl != ''
+                ? FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(widget.category.imageUrl),
+                    fit: BoxFit.fitWidth,
+                    height: 150,
+                    width: double.infinity,
+                  )
+                : Container(
+                    height: 150,
+                    width: double.infinity,
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
 
             Positioned(
               bottom: 10,

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/model/meal_moudel.dart';
+import 'package:recipe_app/featurs/favorite_meals/data/model/meal_moudel.dart';
 import 'package:recipe_app/servise/apiService.dart';
 import 'package:http/http.dart' as http;
 
