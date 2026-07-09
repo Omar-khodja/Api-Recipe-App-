@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/core/entities/meal.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
-import 'package:recipe_app/screen/meal_deatails.dart';
+import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/core/app_logget.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/core/usecases/usecase.dart';
 import 'package:recipe_app/core/entities/meal.dart';
@@ -33,11 +34,12 @@ class FavoritemealNotifire extends StateNotifier<ResultState<List<Meal>>> {
   }
 
   Future<void> addToFavorite(Meal meal) async {
-    final bool isFavorite =
+final bool isFavorite =
         state is SuccessState<List<Meal>> &&
-        (state as SuccessState<List<Meal>>).data.contains(meal);
+        (state as SuccessState<List<Meal>>).data.any((m) => m.id == meal.id);
+    AppLogger.i('isFavorite: $isFavorite');
 
-    if (isFavorite) {
+    if (!isFavorite) {
       await addToFavoriteMealUseCase.call(meal).then((value) {
         if (value is SuccessState<String>) {
           Fluttertoast.showToast(
@@ -46,6 +48,7 @@ class FavoritemealNotifire extends StateNotifier<ResultState<List<Meal>>> {
             timeInSecForIosWeb: 2,
             gravity: ToastGravity.BOTTOM,
           );
+          state = SuccessState( [...(state as SuccessState<List<Meal>>).data, meal]);
         } else if (value is ErrorState<String>) {
           Fluttertoast.showToast(
             msg: value.errorMessage.message,
@@ -64,6 +67,7 @@ class FavoritemealNotifire extends StateNotifier<ResultState<List<Meal>>> {
             timeInSecForIosWeb: 2,
             gravity: ToastGravity.BOTTOM,
           );
+          state = SuccessState((state as SuccessState<List<Meal>>).data.where((m) => m.id != meal.id).toList());
         } else if (value is ErrorState<String>) {
           Fluttertoast.showToast(
             msg: value.errorMessage.message,

@@ -4,7 +4,7 @@ import 'package:recipe_app/core/entities/meal.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/database/localDataBase.dart';
 import 'package:recipe_app/featurs/meals/presentation/controler/meals_notifire_provider.dart';
-import 'package:recipe_app/screen/meal_deatails.dart';
+import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
 import 'package:recipe_app/widget/searchbar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
