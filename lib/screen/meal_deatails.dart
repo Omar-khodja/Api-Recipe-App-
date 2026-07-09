@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -29,26 +30,16 @@ class _MealDeatailsState extends ConsumerState<MealDeatails> {
       widget.meal.isFavorite = !isFavorite;
     });
     ref.read(favoriteMealNotifireProvider.notifier).addToFavorite(widget.meal);
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 3),
-        content: Text(
-          !isFavorite ? 'Added to Favorites' : 'Removed from Favorites',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Theme.of(context).colorScheme.primaryContainer
-            : Theme.of(context).colorScheme.primaryContainer,
-      ),
-    );
+   
   }
 
   @override
   Widget build(BuildContext context) {
     final favoritemeal = ref.watch(favoriteMealNotifireProvider);
-    final isFavorite =true;
-
+bool isFavorite = false;
+    if (favoritemeal is SuccessState<List<Meal>>) {
+      isFavorite = favoritemeal.data.any((meal) => meal.id == widget.meal.id);
+    }
     return Scaffold(
       body: CustomScrollView(
         slivers: [

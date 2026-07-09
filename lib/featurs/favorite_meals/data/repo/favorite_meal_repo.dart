@@ -13,35 +13,39 @@ class FavoriteMealRepo implements FavoriteMealBaseRepo {
   FavoriteMealRepo({required this.datasource});
 
   @override
-  Future<Result<List<Meal>>> getAllFavoriteMeals() async {
+  Future<ResultState<List<Meal>>> getAllFavoriteMeals() async {
     try {
       final result = await datasource.getAllFavoriteMeals();
-      return Success(result);
+      return SuccessState(result);
     } on LocalDataBaseExceptions catch (e) {
       AppLogger.e(e.message, className: "FavoriteMealRepo");
-      return const Error(LocalDataBaseFailure("Something went wrong while fetching favorite meals"));
+      return const ErrorState(LocalDataBaseFailure("Something went wrong while fetching favorite meals"));
     }
   }
 
   @override
-  Future<Result<String>> addToFavorite(Meal meal) async {
+  Future<ResultState<String>> addToFavorite(Meal meal) async {
     try {
       await datasource.addToFavorite(MealMoudel.fromEntity(meal));
-      return const Success("Meal added to favorites");
+      return const SuccessState("Meal added to favorites");
     } on LocalDataBaseExceptions catch (e) {
       AppLogger.e(e.message, className: "FavoriteMealRepo");
-      return const Error(LocalDataBaseFailure('Error adding meal to favorites List'));
+      return const ErrorState(
+        LocalDataBaseFailure('Error adding meal to favorites List'),
+      );
     }
   }
   
   @override
-  Future<Result<String>> deleteFromFavorite(Meal meal)async {
+  Future<ResultState<String>> deleteFromFavorite(Meal meal) async {
     try {
       await datasource.deletefromFavorite(MealMoudel.fromEntity(meal));
-      return const Success("Meal deleted from favorites");
+      return const SuccessState("Meal deleted from favorites");
     }on LocalDataBaseExceptions catch (e) {
       AppLogger.e(e.message, className: "FavoriteMealRepo");
-      return const Error(LocalDataBaseFailure('Error deleting meal from favorites List'));
+      return const ErrorState(
+        LocalDataBaseFailure('Error deleting meal from favorites List'),
+      );
     }
 
   }

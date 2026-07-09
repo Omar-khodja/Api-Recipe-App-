@@ -10,13 +10,13 @@ class CategoryRepo implements CategoryBaseRepo {
   CategoryRepo({required this.datasource});
   final CategoryBaseDataSource datasource;
   @override
-  Future<Result<List<Categoryentities>>> featchCategory() async {
+  Future<ResultState<List<Categoryentities>>> featchCategory() async {
     try {
       final result = await datasource.featchCategory();
-      return Success(result);
+      return SuccessState(result);
     } on ApiExceptions catch (e) {
       AppLogger.e("Error fetching categories: $e", className: "CategoryRepo");
-      return Error(ApiFailure(e.message));
+      return ErrorState(ApiFailure(e.message));
     }
   }
 }

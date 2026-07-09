@@ -27,7 +27,7 @@ class Favoritemeal extends ConsumerWidget {
         ),
       ),
       body: switch (favoriteMeals) {
-        Success(data: final meals) =>
+        SuccessState(data: final meals) =>
           meals.isEmpty
               ?  Center(child: Text('No favorite meals yet.', style: TextStyle(color: Theme.of(context).colorScheme.onSurface),))
               : ListView.builder(
@@ -42,8 +42,10 @@ class Favoritemeal extends ConsumerWidget {
                     );
                   },
                 ),
-        Loading() => const Center(child: CircularProgressIndicator()),
-        Error() => const Center(child: Text('Error loading favorite meals')),
+        LoadingState() => const Center(child: CircularProgressIndicator()),
+        ErrorState() => const Center(
+          child: Text('Error loading favorite meals'),
+        ),
       },
     );
   }

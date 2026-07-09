@@ -7,7 +7,7 @@ class FetchCategoryUseCase implements UseCases<List<Categoryentities>, NoParams 
   FetchCategoryUseCase({required this.categoryBaseRepo});
   final CategoryBaseRepo   categoryBaseRepo;
   @override
-  Future<Result<List<Categoryentities>>> call(NoParams params) async {
+  Future<ResultState<List<Categoryentities>>> call(NoParams params) async {
     return await categoryBaseRepo.featchCategory();
   }
 }

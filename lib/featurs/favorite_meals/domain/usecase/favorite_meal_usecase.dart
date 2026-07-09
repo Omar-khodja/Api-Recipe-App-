@@ -7,7 +7,7 @@ class FavoriteMealUsecase implements UseCases<List<Meal>, NoParams> {
   FavoriteMealUsecase({required this.repo});
   final FavoriteMealBaseRepo repo;
   @override
-  Future<Result<List<Meal>>> call(NoParams params) async {
+  Future<ResultState<List<Meal>>> call(NoParams params) async {
     return await repo.getAllFavoriteMeals();
   }
 }

@@ -7,7 +7,7 @@ class DeleteFromFavoriteMealUsecase implements UseCases<String, Meal> {
   DeleteFromFavoriteMealUsecase({required this.repo});
   final FavoriteMealBaseRepo repo;
   @override
-  Future<Result<String>> call(Meal meal) async {
+  Future<ResultState<String>> call(Meal meal) async {
     return await repo.deleteFromFavorite(meal);
   }
 }

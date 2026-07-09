@@ -9,19 +9,19 @@ import 'package:recipe_app/featurs/favorite_meals/domain/usecase/favorite_meal_u
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoirte_meal_provider.dart';
 
-class FavoritemealNotifire extends StateNotifier<Result<List<Meal>>> {
+class FavoritemealNotifire extends StateNotifier<ResultState<List<Meal>>> {
   FavoritemealNotifire({
     required this.addToFavoriteMealUseCase,
     required this.deleteFromFavoriteMealUseCase,
     required this.favoriteMealUseCase,
-  }) : super(const Loading());
+  }) : super(const LoadingState());
   final AddToFavoriteMealUsecase addToFavoriteMealUseCase;
   final DeleteFromFavoriteMealUsecase deleteFromFavoriteMealUseCase;
   final FavoriteMealUsecase favoriteMealUseCase;
   Future<void> featchFavoriteMeals() async {
     await favoriteMealUseCase.call(const NoParams()).then((value) {
       state = value;
-      if (value is Error<List<Meal>>) {
+      if (value is ErrorState<List<Meal>>) {
         Fluttertoast.showToast(
           msg: value.errorMessage.message,
           backgroundColor: Colors.red,
@@ -31,49 +31,59 @@ class FavoritemealNotifire extends StateNotifier<Result<List<Meal>>> {
       }
     });
   }
+
   Future<void> addToFavorite(Meal meal) async {
-    await addToFavoriteMealUseCase.call(meal).then((value) {
-      if (value is Success<String>) {
-        Fluttertoast.showToast(
-          msg: value.data,
-          backgroundColor: Colors.green,
-          timeInSecForIosWeb: 2,
-          gravity: ToastGravity.BOTTOM,
-        );
-      } else if (value is Error<String>) {
-        Fluttertoast.showToast(
-          msg: value.errorMessage.message,
-          backgroundColor: Colors.red,
-          timeInSecForIosWeb: 2,
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
-    });
-  }
-  Future<void> deleteFromFavorite(Meal meal) async {
-    await deleteFromFavoriteMealUseCase.call(meal).then((value) {
-      if (value is Success<String>) {
-        Fluttertoast.showToast(
-          msg: value.data,
-          backgroundColor: Colors.green,
-          timeInSecForIosWeb: 2,
-          gravity: ToastGravity.BOTTOM,
-        );
-      } else if (value is Error<String>) {
-        Fluttertoast.showToast(
-          msg: value.errorMessage.message,
-          backgroundColor: Colors.red,
-          timeInSecForIosWeb: 2,
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
-    });
+    final bool isFavorite =
+        state is SuccessState<List<Meal>> &&
+        (state as SuccessState<List<Meal>>).data.contains(meal);
+
+    if (isFavorite) {
+      await addToFavoriteMealUseCase.call(meal).then((value) {
+        if (value is SuccessState<String>) {
+          Fluttertoast.showToast(
+            msg: value.data,
+            backgroundColor: Colors.green,
+            timeInSecForIosWeb: 2,
+            gravity: ToastGravity.BOTTOM,
+          );
+        } else if (value is ErrorState<String>) {
+          Fluttertoast.showToast(
+            msg: value.errorMessage.message,
+            backgroundColor: Colors.red,
+            timeInSecForIosWeb: 2,
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
+      });
+    } else {
+      await deleteFromFavoriteMealUseCase.call(meal).then((value) {
+        if (value is SuccessState<String>) {
+          Fluttertoast.showToast(
+            msg: value.data,
+            backgroundColor: Colors.red,
+            timeInSecForIosWeb: 2,
+            gravity: ToastGravity.BOTTOM,
+          );
+        } else if (value is ErrorState<String>) {
+          Fluttertoast.showToast(
+            msg: value.errorMessage.message,
+            backgroundColor: Colors.red,
+            timeInSecForIosWeb: 2,
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
+      });
+    }
   }
 }
-final favoriteMealNotifireProvider = StateNotifierProvider<FavoritemealNotifire, Result<List<Meal>>>(
-  (ref) => FavoritemealNotifire(
-    addToFavoriteMealUseCase: ref.read(addToFavoriteMealUsecaseProvider),
-    deleteFromFavoriteMealUseCase: ref.read(deleteFromFavoriteMealUsecaseProvider),
-    favoriteMealUseCase: ref.read(favoriteMealUsecaseProvider),
-  ),
-);
+
+final favoriteMealNotifireProvider =
+    StateNotifierProvider<FavoritemealNotifire, ResultState<List<Meal>>>(
+      (ref) => FavoritemealNotifire(
+        addToFavoriteMealUseCase: ref.read(addToFavoriteMealUsecaseProvider),
+        deleteFromFavoriteMealUseCase: ref.read(
+          deleteFromFavoriteMealUsecaseProvider,
+        ),
+        favoriteMealUseCase: ref.read(favoriteMealUsecaseProvider),
+      ),
+    );

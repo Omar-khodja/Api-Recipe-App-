@@ -7,13 +7,12 @@ import 'package:recipe_app/featurs/category/presentation/controler/category_prov
 
 
 class CategoryMealNotifire
-    extends StateNotifier<Result<List<Categoryentities>>> {
-  CategoryMealNotifire({required this.usecase}) : super(const Loading());
+    extends StateNotifier<ResultState<List<Categoryentities>>> {
+  CategoryMealNotifire({required this.usecase}) : super(const LoadingState());
   final FetchCategoryUseCase usecase;
 
   Future<void> featchdata() async {
-    state = const Loading();
-    await Future.delayed(const Duration(seconds: 5));
+    state = const LoadingState();
     final category = await usecase.call(const NoParams());
 
     state = category;
@@ -21,7 +20,10 @@ class CategoryMealNotifire
 }
 
 final categoryMealProvider =
-    StateNotifierProvider<CategoryMealNotifire, Result<List<Categoryentities>>>(
+    StateNotifierProvider<
+      CategoryMealNotifire,
+      ResultState<List<Categoryentities>>
+    >(
       (ref) {
         return CategoryMealNotifire(usecase: ref.read(categoryUseCaseProvider));
       },

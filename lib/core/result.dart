@@ -1,16 +1,16 @@
 import 'package:recipe_app/core/error/failure.dart';
 
-sealed class Result<T>{
-  const Result();
+sealed class ResultState<T> {
+  const ResultState();
 }
-class Success<T> extends Result<T>{
+class SuccessState<T> extends ResultState<T> {
   final T data;
-  const Success(this.data);
+  const SuccessState(this.data);
 }
-class Error<T> extends Result<T>{
+class ErrorState<T> extends ResultState<T> {
   final Failure errorMessage;
-  const Error(this.errorMessage);
+  const ErrorState(this.errorMessage);
 }
-class Loading<T> extends Result<T> {
-  const Loading();
+class LoadingState<T> extends ResultState<T> {
+  const LoadingState();
 }

@@ -37,16 +37,16 @@ class MealMoudel extends Meal {
     );
   }
 
-  Map<String , dynamic> toDatabase(MealMoudel meal) {
+  Map<String, dynamic> toDatabase(MealMoudel meal) {
     return {
-      "id": id,
-      "meal": meal,
-      "area": area,
-      "category": category,
-      "image": image,
-      "instructions": instructions,
-      "youtube": youtube,
-      "isFavorite": isFavorite ? 1 : 0,
+      'id': meal.id,
+      'meal': meal.meal,
+      'area': meal.area,
+      'category': meal.category,
+      'image': meal.image,
+      'instructions': meal.instructions,
+      'youtube': meal.youtube,
+      'isFavorite': meal.isFavorite ? 1 : 0,
     };
   }
   factory MealMoudel.fromEntity(Meal meal) {

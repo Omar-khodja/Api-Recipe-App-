@@ -45,7 +45,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
       body: Stack(
         children: [
           switch (category) {
-            Loading() => Skeletonizer(
+            LoadingState() => Skeletonizer(
               child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -62,10 +62,10 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 ),
               ),
             ),
-            Error(  ) =>const  Center(
+            ErrorState() => const Center(
               child: Text("somthing went wrong try again later!"),
             ),
-            Success(data: final data) => GridView.builder(
+            SuccessState(data: final data) => GridView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisExtent: 200,

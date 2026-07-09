@@ -7,7 +7,7 @@ class AddToFavoriteMealUsecase implements UseCases<String, Meal> {
   AddToFavoriteMealUsecase({required this.repo});
   final FavoriteMealBaseRepo repo;
   @override
-  Future<Result<String>> call(Meal meal) async {
+  Future<ResultState<String>> call(Meal meal) async {
     return await repo.addToFavorite(meal);
   }
 }
