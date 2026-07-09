@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/core/usecases/usecase.dart';
-import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
+import 'package:recipe_app/core/entities/meal.dart';
 import 'package:recipe_app/featurs/favorite_meals/domain/usecase/add_to_favorite_meal_usecase.dart';
 import 'package:recipe_app/featurs/favorite_meals/domain/usecase/delete_from_favorite_meal_usecase.dart';
 import 'package:recipe_app/featurs/favorite_meals/domain/usecase/favorite_meal_usecase.dart';

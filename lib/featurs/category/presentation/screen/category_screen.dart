@@ -6,7 +6,7 @@ import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
 import 'package:recipe_app/provider/mealApiProvider.dart';
-import 'package:recipe_app/screen/meals.dart';
+import 'package:recipe_app/featurs/meals/presentation/screen/meals.dart';
 import 'package:recipe_app/featurs/category/presentation/widget/category_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -46,6 +46,10 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
         children: [
           switch (category) {
             LoadingState() => Skeletonizer(
+              effect: ShimmerEffect(
+                baseColor: Colors.grey[800]!, // dark base
+                highlightColor: Colors.grey[600]!, // lighter shimmer
+              ),
               child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

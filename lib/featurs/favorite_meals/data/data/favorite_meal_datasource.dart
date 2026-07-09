@@ -1,6 +1,6 @@
 import 'package:recipe_app/core/error/data_exception.dart';
 import 'package:recipe_app/featurs/favorite_meals/data/data/favoritemeal_base_datasouce.dart';
-import 'package:recipe_app/featurs/favorite_meals/data/model/meal_moudel.dart';
+import 'package:recipe_app/core/models/meal_moudel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as p;

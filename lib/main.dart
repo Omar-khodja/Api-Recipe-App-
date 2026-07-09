@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recipe_app/screen/navigator_screen.dart';
+import 'package:recipe_app/navigator_screen.dart';
 
 final kcolorSchemedark = ColorScheme.fromSeed(
   seedColor: Colors.blueAccent,

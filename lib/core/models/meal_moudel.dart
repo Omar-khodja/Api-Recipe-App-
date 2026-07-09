@@ -1,4 +1,4 @@
-import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
+import 'package:recipe_app/core/entities/meal.dart';
 
 class MealMoudel extends Meal {
 
@@ -17,7 +17,7 @@ class MealMoudel extends Meal {
     return MealMoudel(
       id: json["idMeal"],
       meal: json["strMeal"],
-      area: json["strArea"],
+      area: json["strArea"] ?? "Unknown",
       category: json["strCategory"],
       image: json["strMealThumb"],
       instructions: json["strInstructions"],

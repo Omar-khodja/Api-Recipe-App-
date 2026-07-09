@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
-import 'package:recipe_app/widget/mealcard_content.dart';
+import 'package:recipe_app/core/entities/meal.dart';
+import 'package:recipe_app/core/widget/mealcard_content.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealsCard extends StatelessWidget {

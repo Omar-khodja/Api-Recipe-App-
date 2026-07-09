@@ -1,4 +1,4 @@
-import 'package:recipe_app/featurs/favorite_meals/data/model/meal_moudel.dart';
+import 'package:recipe_app/core/models/meal_moudel.dart';
 
 abstract class FavoriteMealBaseDatasource {
   Future<List<MealMoudel>> getAllFavoriteMeals();

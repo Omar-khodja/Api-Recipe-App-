@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
-import 'package:recipe_app/provider/mealApiProvider.dart';
+import 'package:recipe_app/featurs/meals/presentation/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/featurs/category/presentation/screen/category_screen.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/screen/favoriteMeal.dart';
-import 'package:recipe_app/screen/meals.dart';
+import 'package:recipe_app/featurs/meals/presentation/screen/meals.dart';
 
 class NavigatorScreen extends ConsumerStatefulWidget {
   const NavigatorScreen({super.key});
@@ -21,7 +21,7 @@ class _HomePageState extends ConsumerState<NavigatorScreen> {
     super.initState();
     ref.read(favoriteMealNotifireProvider.notifier).featchFavoriteMeals();
     ref.read(categoryMealProvider.notifier).featchdata();
-    ref.read(mealApiProvider.notifier).featchdata();
+    ref.read(mealsListProvider.notifier).featchMeals();
   }
 
   void selectedpage(int index) {

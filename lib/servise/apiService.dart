@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:recipe_app/featurs/category/data/model/category_moudel.dart';
-import 'package:recipe_app/featurs/favorite_meals/data/model/meal_moudel.dart';
+import 'package:recipe_app/core/models/meal_moudel.dart';
 
 String _randomlatter() {
   final random = Random();

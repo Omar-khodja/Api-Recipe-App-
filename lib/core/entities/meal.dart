@@ -1,3 +1,4 @@
+
 class Meal {
   Meal({
     required this.id,
@@ -17,4 +18,6 @@ class Meal {
   final String? image;
   final String? youtube;
   bool isFavorite;
+
+
 }

@@ -3,8 +3,8 @@ import 'package:recipe_app/core/error/data_exception.dart';
 import 'package:recipe_app/core/error/failure.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/featurs/favorite_meals/data/data/favoritemeal_base_datasouce.dart';
-import 'package:recipe_app/featurs/favorite_meals/data/model/meal_moudel.dart';
-import 'package:recipe_app/featurs/favorite_meals/domain/entities/meal.dart';
+import 'package:recipe_app/core/models/meal_moudel.dart';
+import 'package:recipe_app/core/entities/meal.dart';
 import 'package:recipe_app/featurs/favorite_meals/domain/repo/favorite_meals_base_repo.dart';
 
 class FavoriteMealRepo implements FavoriteMealBaseRepo {
