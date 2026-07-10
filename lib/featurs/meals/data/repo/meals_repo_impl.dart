@@ -20,4 +20,30 @@ class MealsRepoImpl implements MealsBaseRepo {
     }
     
   }
+  
+  @override
+  Future<ResultState<List<Meal>>> searchByName(String name)async {
+      try {
+      final result = await datasource.searchByName(name);
+      return SuccessState(result);
+    }on ApiExceptions catch (e) {
+      AppLogger.e(e.message,className: e.runtimeType.toString());
+      return ErrorState(ApiFailure(e.message));
+    }catch(e){
+      AppLogger.e(e.toString(),className: e.runtimeType.toString());
+      return ErrorState(ApiFailure(e.toString()));
+    }
+  }
+  
+  @override
+  Future<ResultState<List<Meal>>> filterByCategory(String category)async {
+    try{
+      final response = await datasource.filterByCategory(category);
+      return SuccessState(response);
+
+    }on ApiExceptions catch (e) {
+      AppLogger.e(e.message,className: e.runtimeType.toString());
+      return ErrorState(ApiFailure(e.message));
+  }
+  }
 }

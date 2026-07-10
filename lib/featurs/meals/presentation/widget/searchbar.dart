@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipe_app/provider/mealApiProvider.dart';
+import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 
 class Searchtextfailed extends ConsumerWidget {
   const Searchtextfailed({super.key,required this.controller});
@@ -22,11 +22,11 @@ class Searchtextfailed extends ConsumerWidget {
         filled: true,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(13)),
       ),
-      onSubmitted: (value) {
+      onChanged: (value) {
         if(value.trim().isEmpty) {
           return;
         }
-        ref.read(mealApiProvider.notifier).searchByName(controller.text);
+        ref.read(mealsListProvider.notifier).searchByName(controller.text);
       },
     );
   }

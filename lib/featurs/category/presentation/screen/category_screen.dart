@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
-import 'package:recipe_app/provider/mealApiProvider.dart';
 import 'package:recipe_app/featurs/meals/presentation/screen/meals.dart';
 import 'package:recipe_app/featurs/category/presentation/widget/category_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -20,13 +20,14 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   final emptycategory = Categoryentities(id: '', title: 'ssssss', imageUrl: '');
 
   void selectedCategory(BuildContext context, String categorie) async {
-    await ref.read(mealApiProvider.notifier).filterByCategory(categorie);
-    if (!mounted) return;
+     ref.read(mealsListProvider.notifier).filterByCategory(categorie);
+    if (mounted) {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => Meals(showSearchbar: false, title: categorie),
       ),
     );
+    }
     if (!mounted) return;
   }
 
