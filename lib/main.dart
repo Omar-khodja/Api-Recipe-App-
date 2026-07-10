@@ -4,12 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_app/navigator_screen.dart';
 
 final kcolorSchemedark = ColorScheme.fromSeed(
-  seedColor: Colors.blueAccent,
+  seedColor: const Color.fromRGBO(255, 245, 203, 1),
   brightness: Brightness.dark,
 );
 final kcolorSchemelight = ColorScheme.fromSeed(
-  seedColor: Colors.blueAccent,
+  seedColor: const Color.fromRGBO(255, 245, 203, 1),
   brightness: Brightness.light,
+  primary: const Color.fromRGBO(255, 245, 203, 1),
+  onPrimary: const Color(0xFF3B3B1F),
+  secondary: const Color(0xFF9CAF88),
+  tertiary: const Color(0xFFEFFFCB),
 );
 
 
@@ -29,18 +33,22 @@ class MyApp extends StatelessWidget {
             colorScheme: kcolorSchemelight,
             
             textTheme: GoogleFonts.ralewayTextTheme().copyWith(
-              titleLarge: TextStyle(color: kcolorSchemelight.onInverseSurface),
+              titleLarge: TextStyle(color: kcolorSchemelight.onSurface),
               titleMedium: TextStyle(color: kcolorSchemelight.onSurface),
               
               
             ),
           ).copyWith(
-            appBarTheme: AppBarTheme(color: kcolorSchemelight.primary),
+            appBarTheme: AppBarTheme(
+              backgroundColor: kcolorSchemelight.secondary,
+              foregroundColor: kcolorSchemelight.onSecondary,
+            ),
             scaffoldBackgroundColor: kcolorSchemelight.surface,
             brightness: Brightness.light,
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: kcolorSchemelight.primary,
-              selectedItemColor: Colors.greenAccent,
+              backgroundColor: kcolorSchemelight.secondary,
+
+              selectedItemColor: kcolorSchemelight.onSecondary,
             ),
             iconTheme: IconThemeData(
               color: kcolorSchemelight.onInverseSurface,
@@ -57,8 +65,10 @@ class MyApp extends StatelessWidget {
               titleSmall: TextStyle(color: kcolorSchemedark.onSurface),
             ),
           ).copyWith(
-            appBarTheme: AppBarTheme(color: kcolorSchemedark.primaryContainer),
-            brightness: Brightness.light,
+            appBarTheme: AppBarTheme(
+              backgroundColor: kcolorSchemedark.primaryContainer,
+            ),
+            brightness: Brightness.dark,
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
               backgroundColor: kcolorSchemedark.primaryContainer,
               selectedItemColor: Colors.green,

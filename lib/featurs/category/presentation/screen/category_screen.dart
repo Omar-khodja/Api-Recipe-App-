@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +23,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     if (mounted) {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Meals(showSearchbar: false, title: categorie),
+        builder: (context) => Meals(title: categorie),
       ),
     );
     }
@@ -36,11 +35,9 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     final category = ref.watch(categoryMealProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Categories',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+          
         ),
       ),
       body: Stack(
@@ -48,8 +45,8 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
           switch (category) {
             LoadingState() => Skeletonizer(
               effect: ShimmerEffect(
-                baseColor: Colors.grey[800]!, // dark base
-                highlightColor: Colors.grey[600]!, // lighter shimmer
+                baseColor: Theme.of(context).colorScheme.surfaceContainer,
+
               ),
               child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),

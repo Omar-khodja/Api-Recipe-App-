@@ -22,11 +22,9 @@ class Favoritemeal extends ConsumerWidget {
     final favoriteMeals = ref.watch(favoriteMealNotifireProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Favorite Meals',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+        
         ),
       ),
       body: switch (favoriteMeals) {

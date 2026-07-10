@@ -6,12 +6,10 @@ import 'package:recipe_app/database/localDataBase.dart';
 import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
-import 'package:recipe_app/featurs/meals/presentation/widget/searchbar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class Meals extends ConsumerStatefulWidget {
-  const Meals({super.key, required this.showSearchbar, this.title});
-  final bool showSearchbar;
+  const Meals({super.key, this.title});
   final String? title;
   @override
   ConsumerState<Meals> createState() => _MealsState();
@@ -37,18 +35,15 @@ class _MealsState extends ConsumerState<Meals> {
     final mealsList = ref.watch(mealsListProvider);
     return Scaffold(
       appBar: AppBar(
-        title: widget.showSearchbar
-            ? Searchtextfailed(controller: _searchControler)
-            : Text(
+        title: Text(
                 widget.title!,
-                style: Theme.of(context).textTheme.titleLarge,
               ),
       ),
       body: switch (mealsList) {
         LoadingState() => Skeletonizer(
           effect: ShimmerEffect(
-            baseColor: Colors.grey[800]!, 
-            highlightColor: Colors.grey[600]!, 
+            baseColor: Theme.of(context).colorScheme.surfaceContainer,
+             
           ),
           enabled: true,
           child: ListView.builder(
@@ -78,13 +73,16 @@ class _MealsState extends ConsumerState<Meals> {
           onRefresh: () async {
             ref.read(mealsListProvider.notifier).featchMeals();
           },
-          child: ListView.builder(
-            itemCount: meals.length,
-            itemBuilder: (context, index) => MealsCard(
-              meal: meals[index],
-              openMealDeatailsScreen: () {
-                openMealDeatailsScreen(context, meals[index]);
-              },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: meals.length,
+              itemBuilder: (context, index) => MealsCard(
+                meal: meals[index],
+                openMealDeatailsScreen: () {
+                  openMealDeatailsScreen(context, meals[index]);
+                },
+              ),
             ),
           ),
         ),

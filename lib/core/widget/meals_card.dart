@@ -44,7 +44,7 @@ class MealsCard extends StatelessWidget {
                 bottom: 0,
                 child: Container(
                   height: 100,
-                  color: Colors.black45,
+                color: Colors.black45,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -53,7 +53,9 @@ class MealsCard extends StatelessWidget {
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white)
                       ),
                       const SizedBox(height: 8),
                       Row(

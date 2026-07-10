@@ -93,13 +93,16 @@ bool isFavorite = false;
                         ? Container(
                             width: 60,
                             height: 60,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.black87,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             child: IconButton(
                               onPressed: youtubevideo,
-                              icon: const Icon(Icons.play_arrow),
+                              icon: Icon(
+                                Icons.play_arrow,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                             ),
                           )
                         : Container(),
@@ -122,7 +125,8 @@ bool isFavorite = false;
                     Text(
                       "Instructions",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -132,7 +136,7 @@ bool isFavorite = false;
                       margin: const EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: Theme.of(context).colorScheme.surfaceContainer,
+                        color: Theme.of(context).colorScheme.primary,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.5),
@@ -144,7 +148,10 @@ bool isFavorite = false;
                       child: Text(
                         textAlign: TextAlign.justify,
                         widget.meal.instructions!,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                       ),
                     ),
                   ],
