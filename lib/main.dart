@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:recipe_app/navigator_screen.dart';
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 final kcolorSchemelight = ColorScheme.fromSeed(
   seedColor: const Color.fromRGBO(255, 245, 203, 1),
@@ -13,6 +13,9 @@ final kcolorSchemelight = ColorScheme.fromSeed(
 );
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        FlutterNativeSplash.remove();
     return MaterialApp(
       title: 'Flutter Demo',
       theme:
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
 
             iconTheme: IconThemeData(color: kcolorSchemelight.onInverseSurface),
           ),
-   
+
       home: const NavigatorScreen(),
     );
   }
