@@ -18,7 +18,6 @@ class MealsScreen extends ConsumerStatefulWidget {
 class _MealsState extends ConsumerState<MealsScreen> {
   final Localdatabase localDatabase = Localdatabase();
 
-
   void openMealDeatailsScreen(BuildContext context, Meal meal) {
     Navigator.of(
       context,
@@ -28,26 +27,30 @@ class _MealsState extends ConsumerState<MealsScreen> {
   @override
   Widget build(BuildContext context) {
     final mealsList = ref.watch(mealsListProvider);
-    return switch (mealsList) {
+    return Scaffold(
+      appBar: AppBar(title: widget.title != null ? Text(widget.title!) : null),
+      body: switch (mealsList) {
         LoadingState() => Skeletonizer(
           effect: ShimmerEffect(
             baseColor: Theme.of(context).colorScheme.surfaceContainer,
-             
           ),
           enabled: true,
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) => Card(
-              shadowColor: Colors.black,
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Container(
-                width: double.infinity,
-                height: 250,
-                color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) => Card(
+                shadowColor: Colors.black,
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Container(
+                  width: double.infinity,
+                  height: 250,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -75,7 +78,7 @@ class _MealsState extends ConsumerState<MealsScreen> {
             ),
           ),
         ),
-      }
-    ;
+      },
+    );
   }
 }

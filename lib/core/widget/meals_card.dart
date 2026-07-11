@@ -18,67 +18,68 @@ class MealsCard extends StatelessWidget {
       highlightColor: Colors.green.withValues(alpha: .3),
       borderRadius: BorderRadius.circular(12),
       onTap: openMealDeatailsScreen,
-      child:  Card( 
-        shadowColor: Colors.black,
+      child: Card(
+        shadowColor: Theme.of(context).colorScheme.tertiary,
+
         elevation: 8,
 
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(12),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            children: [
-              Hero(
-                tag: meal.id!,
-                child: FadeInImage(
-                  width: double.infinity,
-                  height: 250,
-                  fit: BoxFit.cover,
-                  placeholder: MemoryImage(kTransparentImage),
-                  image: NetworkImage(meal.image!),
-                ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(12),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Hero(
+              tag: meal.id!,
+              child: FadeInImage(
+                width: double.infinity,
+                height: 250,
+                fit: BoxFit.cover,
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(meal.image!),
               ),
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: 0,
-                child: Container(
-                  height: 100,
+            ),
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: 0,
+              child: Container(
+                height: 100,
                 color: Colors.black45,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        meal.meal!,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      meal.meal!,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(
                         context,
-                      ).textTheme.titleLarge!.copyWith(color: Colors.white)
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          MealcardContent(
-                            iCon: Icons.location_on,
-                            title: meal.area == null ? 'Unknown' : meal.area!,
-                          ),
-                          MealcardContent(
-                            iCon: Icons.restaurant_menu,
-        
-                            title: meal.category!,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MealcardContent(
+                          iCon: Icons.location_on,
+                          title: meal.area == null ? 'Unknown' : meal.area!,
+                        ),
+                        MealcardContent(
+                          iCon: Icons.restaurant_menu,
+
+                          title: meal.category!,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

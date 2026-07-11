@@ -27,6 +27,9 @@ class _CategoryCardState extends State<CategoryCard> {
         widget.onCategorySelected();
       },
       child: Card(
+        shadowColor: Theme.of(context).colorScheme.tertiary,
+        elevation: 8,
+
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         clipBehavior: Clip.antiAlias,
         color: Theme.of(context).colorScheme.surfaceContainer,

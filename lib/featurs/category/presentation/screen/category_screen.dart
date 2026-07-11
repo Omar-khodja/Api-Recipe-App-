@@ -33,8 +33,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final category = ref.watch(categoryMealProvider);
-    return  Stack(
-        children: [
+    return  
           switch (category) {
             LoadingState() => Skeletonizer(
               effect: ShimmerEffect(
@@ -78,8 +77,6 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 },
               ),
             ),
-          },
-        ],
-      );
+          };
   }
 }
