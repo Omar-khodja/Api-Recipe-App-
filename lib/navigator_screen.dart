@@ -1,11 +1,16 @@
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
 import 'package:recipe_app/featurs/favorite_meals/presentation/controler/favoriteMeal_notifire_provider.dart';
 import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/featurs/category/presentation/screen/category_screen.dart';
-import 'package:recipe_app/featurs/favorite_meals/presentation/screen/favoriteMeal.dart';
-import 'package:recipe_app/featurs/meals/presentation/screen/meals.dart';
+import 'package:recipe_app/featurs/favorite_meals/presentation/screen/favorite_meal_screen.dart';
+import 'package:recipe_app/featurs/meals/presentation/screen/meals_screen.dart';
+import 'package:recipe_app/featurs/search/presentation/screen/search_screen.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
+import 'package:recipe_app/featurs/search/presentation/widget/searchbar.dart';
 
 class NavigatorScreen extends ConsumerStatefulWidget {
   const NavigatorScreen({super.key});
@@ -15,6 +20,15 @@ class NavigatorScreen extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<NavigatorScreen> {
   int _selectedindex = 0;
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final TextEditingController _searchControler = TextEditingController();
+  final screens = const [
+    CategoryScreen(),
+    MealsScreen(),
+    SearchScreen(),
+    FavoriteMealScreen(),
+  ];
+  final titles = const ["Category", "Random Meals", "", "Favorites Meals"];
 
   @override
   void initState() {
@@ -22,6 +36,12 @@ class _HomePageState extends ConsumerState<NavigatorScreen> {
     ref.read(favoriteMealNotifireProvider.notifier).featchFavoriteMeals();
     ref.read(categoryMealProvider.notifier).featchdata();
     ref.read(mealsListProvider.notifier).featchMeals();
+  }
+
+  @override
+  void dispose() {
+    _searchControler.dispose();
+    super.dispose();
   }
 
   void selectedpage(int index) {
@@ -32,32 +52,32 @@ class _HomePageState extends ConsumerState<NavigatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget currentpage = const CategoryScreen();
-    if (_selectedindex == 1) {
-      currentpage = const Meals(title: "Random Meals");
-    } else if (_selectedindex == 2) {
-      currentpage = const Favoritemeal();
-    }
     return Scaffold(
-      body: currentpage,
-      bottomNavigationBar: BottomNavigationBar(
-     
-        currentIndex: _selectedindex,
-        onTap: (value) {
-          selectedpage(value);
-        },
+      appBar: AppBar(
+        title: _selectedindex == 2
+            ? Searchtextfailed(controller: _searchControler)
+            : Text(titles[_selectedindex]),
+        
+      ),
+      body: screens[_selectedindex],
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 60,
+        buttonBackgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.secondary,
+        key: _bottomNavigationKey,
+        index: _selectedindex,
+        onTap: (index) => setState(() => selectedpage(index)),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.food_bank),
-            label: 'Category',
+          CurvedNavigationBarItem(child: Icon(Icons.food_bank),
+        
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dinner_dining),
-            label: 'Meals',
+          CurvedNavigationBarItem(child: Icon(Icons.dinner_dining_outlined),
+        
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Favorite Meals',
+          CurvedNavigationBarItem(child: Icon(Icons.search)),
+          CurvedNavigationBarItem(child: Icon(Icons.bookmark_outlined),
+        
           ),
         ],
       ),

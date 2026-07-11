@@ -5,7 +5,7 @@ import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/core/result.dart';
 import 'package:recipe_app/featurs/category/domain/entities/category.dart';
 import 'package:recipe_app/featurs/category/presentation/controler/category_meal_notifire_provider.dart';
-import 'package:recipe_app/featurs/meals/presentation/screen/meals.dart';
+import 'package:recipe_app/featurs/meals/presentation/screen/meals_screen.dart';
 import 'package:recipe_app/featurs/category/presentation/widget/category_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -23,7 +23,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     if (mounted) {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Meals(title: categorie),
+        builder: (context) => MealsScreen(title: categorie),
       ),
     );
     }
@@ -33,14 +33,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final category = ref.watch(categoryMealProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Categories',
-          
-        ),
-      ),
-      body: Stack(
+    return  Stack(
         children: [
           switch (category) {
             LoadingState() => Skeletonizer(
@@ -87,7 +80,6 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
             ),
           },
         ],
-      ),
-    );
+      );
   }
 }

@@ -8,21 +8,16 @@ import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class Meals extends ConsumerStatefulWidget {
-  const Meals({super.key, this.title});
+class MealsScreen extends ConsumerStatefulWidget {
+  const MealsScreen({super.key, this.title});
   final String? title;
   @override
-  ConsumerState<Meals> createState() => _MealsState();
+  ConsumerState<MealsScreen> createState() => _MealsState();
 }
 
-class _MealsState extends ConsumerState<Meals> {
-  final TextEditingController _searchControler = TextEditingController();
+class _MealsState extends ConsumerState<MealsScreen> {
   final Localdatabase localDatabase = Localdatabase();
-  @override
-  void dispose() {
-    super.dispose();
-    _searchControler.dispose();
-  }
+
 
   void openMealDeatailsScreen(BuildContext context, Meal meal) {
     Navigator.of(
@@ -33,13 +28,7 @@ class _MealsState extends ConsumerState<Meals> {
   @override
   Widget build(BuildContext context) {
     final mealsList = ref.watch(mealsListProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-                widget.title!,
-              ),
-      ),
-      body: switch (mealsList) {
+    return switch (mealsList) {
         LoadingState() => Skeletonizer(
           effect: ShimmerEffect(
             baseColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -86,7 +75,7 @@ class _MealsState extends ConsumerState<Meals> {
             ),
           ),
         ),
-      },
-    );
+      }
+    ;
   }
 }

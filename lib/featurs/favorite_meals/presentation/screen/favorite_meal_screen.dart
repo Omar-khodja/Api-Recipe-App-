@@ -7,8 +7,8 @@ import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class Favoritemeal extends ConsumerWidget {
-  const Favoritemeal({super.key});
+class FavoriteMealScreen extends ConsumerWidget {
+  const FavoriteMealScreen({super.key});
 
   void openMealDeatailsScreen(BuildContext context, Meal meal) {
     Navigator.of(
@@ -20,14 +20,7 @@ class Favoritemeal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
   
     final favoriteMeals = ref.watch(favoriteMealNotifireProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Favorite Meals',
-        
-        ),
-      ),
-      body: switch (favoriteMeals) {
+    return  switch (favoriteMeals) {
         SuccessState(data: final meals) =>
           meals.isEmpty
               ? Center(
@@ -79,7 +72,6 @@ class Favoritemeal extends ConsumerWidget {
             child: const Text('Error loading favorite meals'),
           ),
         ),
-      },
-    );
+      };
   }
 }
