@@ -46,8 +46,9 @@ class MealDataSource extends MealsBaseDatasource {
         throw ApiExceptions("No meals found for the given category.");
       }
       final mealsData = response.data["meals"] as List;
+      final minMealsData = mealsData.take(30).toList();
 
-      for (var meal in mealsData) {
+      for (var meal in minMealsData) {
         final mealId = meal["idMeal"];
         final mealsDetailsResponse = await dioClient.dio.get(
           'lookup.php?i=$mealId',

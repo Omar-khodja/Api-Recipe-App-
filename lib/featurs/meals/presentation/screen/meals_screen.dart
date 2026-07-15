@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/core/entities/meal.dart';
 import 'package:recipe_app/core/result.dart';
-import 'package:recipe_app/database/localDataBase.dart';
 import 'package:recipe_app/core/controler/meals_notifire_provider.dart';
 import 'package:recipe_app/core/widget/meal_deatails.dart';
 import 'package:recipe_app/core/widget/meals_card.dart';
@@ -16,7 +15,6 @@ class MealsScreen extends ConsumerStatefulWidget {
 }
 
 class _MealsState extends ConsumerState<MealsScreen> {
-  final Localdatabase localDatabase = Localdatabase();
 
   void openMealDeatailsScreen(BuildContext context, Meal meal) {
     Navigator.of(
@@ -28,7 +26,7 @@ class _MealsState extends ConsumerState<MealsScreen> {
   Widget build(BuildContext context) {
     final mealsList = ref.watch(mealsListProvider);
     return Scaffold(
-      appBar: AppBar(title: widget.title != null ? Text(widget.title!) : null),
+      appBar: widget.title != null ? AppBar(title: Text(widget.title!)) : null,
       body: switch (mealsList) {
         LoadingState() => Skeletonizer(
           effect: ShimmerEffect(
